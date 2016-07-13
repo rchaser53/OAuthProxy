@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "set DEBUG=aaaa && node tasks\\build.js"
+    "build": "node tasks\\build.js"
   },
   "devDependencies": {
     "babel": "6.5.2",
