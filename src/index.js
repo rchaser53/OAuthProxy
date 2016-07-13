@@ -1,18 +1,16 @@
 window.onload = function(){
 	document.querySelector("#submitBtn").addEventListener("click",(e)=>{
-		var xhr = new XMLHttpRequest();
-		xhr.open("GET","http://localhost:3000/proxy");
-		xhr.onreadystatechange = function (){
-			switch(xhr.readyState){
-			case 4:
-				if((200 <= xhr.status && xhr.status < 300) || (xhr.status == 304)){
-					console.log(xhr)
-				}else{
-					console.log(xhr)
-				}
-				break;
+		fetch("http://localhost:3000/proxy",{
+			method:"GET",
+			headers:{
+				"twitterQuery":'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=rchaser53&count=1'
 			}
-		};
-		xhr.send(null);
+		}).then((response)=>{
+			 return response.json();
+		}).then((ret)=>{
+			console.log(ret);
+		}).catch((err)=>{
+			console.log(err);
+		})
 	})
 }
