@@ -2,12 +2,10 @@ const request = require('request');
 const config = require('../oAuthConfig.json');
 const OAuth = require('oauth');
 
-module.exports = function(options) {
+module.exports = (options)=>{
   options = options || {}
 
-  return function(req, res,next) {
-    const query = 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=rchaser53&count=1';
-
+  return (req, res)=>{
     const {
       requestUrl,
       accessToken,
@@ -30,19 +28,26 @@ module.exports = function(options) {
       signatureMethod
     );
 
-    oauth.get(
-        query,
-        userToken,
-        useSecretToken,
-        (err, data, response)=>{
-          if (err){
-            console.error(err);
-          }
-          response.headers["Access-Control-Allow-Origin"] = "*";
-          response.headers["location"] = "localhost:8000";
-          res.header("Access-Control-Allow-Origin","*");
+    const query = req.header("twitterQuery");
 
-          res.end(new Buffer(data));
-    });
+    if(req.header("twitterQuery") != null){
+      oauth.get(
+          query,
+          userToken,
+          useSecretToken,
+          (err, data, response)=>{
+            if (err){
+              console.error(err);
+              return;
+            }
+            res.header("Access-Control-Allow-Origin","http://localhost:8000");
+            res.header("Access-Control-Allow-Headers","twitterQuery");
+            res.send(data);
+      });
+    } else{
+      res.header("Access-Control-Allow-Origin","http://localhost:8000");
+      res.header("Access-Control-Allow-Headers","twitterQuery");
+      res.send();
+    }
   }
 };
