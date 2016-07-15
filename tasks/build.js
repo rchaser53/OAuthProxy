@@ -3,11 +3,8 @@ const vfs = require("vinyl-fs");
 const browserify = require("browserify");
 const watchify = require("watchify");
 const babelify = require('babelify');
-const fs = require("fs");
-const http = require('http');
-const express = require('express');
-const proxy = require('./proxy');
-const app = express();
+const fs = require('fs');
+const server = require('./server');
 
 const bundler = browserify({
                     entries: ["src/index.js"],
@@ -38,24 +35,9 @@ const rebundle = ()=>{
 bundler.on("update", rebundle);
 rebundle();
 
-app.all('/proxy/?*',proxy());
-
-http.createServer(app).listen(3000, function (e) {
-    console.log("express server listening on port 3000")
-});
-
 vfs.src("./")
     .pipe(webserver({
-        livereload: true,
-        proxies:[{
-            source: './',
-            port:3000,
-            target:'https://api.twitter.com/1.1',
-            options: {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': '*'
-                }
-            }
-        }]
+        livereload: true
     }));
+
+server();
