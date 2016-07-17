@@ -7,36 +7,29 @@ const proxy = require('./proxy');
 const config = require('../oAuthConfig.json');
 
 module.exports = ()=>{
-  const {
-    requestUrl,
-    accessToken,
-    consumerKey,
-    consumerSecret,
-    version,
-    authorize_callback,
-    signatureMethod,
-    userToken,
-    useSecretToken
-  } = config;
-
   const oauth = new OAuth.OAuth(
-    requestUrl,
-    accessToken,
-    consumerKey,
-    consumerSecret,
-    version,
-    authorize_callback,
-    signatureMethod
+    config.requestUrl,
+    config.accessToken,
+    config.consumerKey,
+    config.consumerSecret,
+    config.version,
+    config.authorize_callback,
+    config.signatureMethod
   );
 
-  app.get('/proxy',(req,res,next)=>{
-      const query = req.header("twitterQuery");
-
+  app.all('/proxy',(req,res,next)=>{
       oauth.get(
-          'https://api.twitter.com/1.1/statuses/user_timeline.json?' + query,
-          userToken,
-          useSecretToken,
-          resProcess
+          'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=rchaser53&count=5',
+          config.userToken,
+          config.useSecretToken,
+	(err,data,response) =>{
+	if (err){
+	 	console.error(err);
+	}
+	res.header("Access-Control-Allow-Origin","http://localhost:8000");
+	res.header("Access-Control-Allow-Headers","twitterQuery");
+	res.send(data);
+	}
       );
   })
 
@@ -48,7 +41,7 @@ module.exports = ()=>{
           userToken,
           useSecretToken,
           JSON.stringify({
-              status:"test"
+          status:"test"
           }),
           null,
           resProcess
@@ -68,11 +61,4 @@ module.exports = ()=>{
 
 }
 
-const resProcess = (err,data,response) =>{
-  if (err){
-    console.error(err);
-  }
-  res.header("Access-Control-Allow-Origin","http://localhost:8000");
-  res.header("Access-Control-Allow-Headers","twitterQuery");
-  res.send(data);
-}
+
