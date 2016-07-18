@@ -1,9 +1,10 @@
-const http = require('http');
+const https = require('https');
 const OAuth = require('oauth');
 const express = require('express');
 const serveStatic = require('serve-static');
 const app = express();
 
+const fs = require("fs")
 const config = require('../oAuthConfig.json');
 
 module.exports = ()=>{
@@ -27,8 +28,9 @@ module.exports = ()=>{
           	if (err){
           	 	console.error(err);
           	}
-          	res.header("Access-Control-Allow-Origin","http://localhost:3000");
+          	res.header("Access-Control-Allow-Origin","https://localhost:3000");
           	res.header("Access-Control-Allow-Headers","twitterQuery");
+	console.log(res);
             res.send(data);
     	   });
   })
@@ -48,14 +50,14 @@ module.exports = ()=>{
             if (err){
               console.error(err);
             }
-            res.header("Access-Control-Allow-Origin","http://localhost:3000");
+            res.header("Access-Control-Allow-Origin","https://localhost:3000");
             res.header("Access-Control-Allow-Headers","twitterQuery");
             res.send(data);
          });
   })
 
   app.options("/*",(req,res,next)=>{
-    res.header("Access-Control-Allow-Origin","http://localhost:3000");
+    res.header("Access-Control-Allow-Origin","https://localhost:3000");
     res.header("Access-Control-Allow-Headers","twitterQuery");
     res.end();
     return
@@ -67,7 +69,11 @@ module.exports = ()=>{
     }
   }));
 
-  http.createServer(app).listen(3000, (e)=>{
+  https.createServer({
+	key: fs.readFileSync('../../../../etc/letsencrypt/live/test.rc53api.xyz/privkey.pem'),
+	cert: fs.readFileSync('../../../../etc/letsencrypt/live/test.rc53api.xyz/cert.pem')
+},
+	app).listen(3000, (e)=>{
       console.log("express server listening on port 3000")
   });
 }

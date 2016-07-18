@@ -12,11 +12,13 @@ window.onload = function(){
 }
 
 const getTweet = (query) => {
-	return fetch("http://localhost:3000/proxy/getTweet",{
-		headers:{
-			twitterQuery:query
-		}
-	});
+	return fetch("https://test.rc53api.xyz/proxy/getTweet"
+//	{
+//		headers:{
+//			twitterQuery:query
+//		}
+//	}
+);
 }
 
 const postTweet = (query) => {

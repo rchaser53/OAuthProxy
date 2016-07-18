@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build_dev": "node tasks/build.js",
-    "build_pro": "SET NODE_ENV=production&&node tasks/build.js"
+    "build_pro": "NODE_ENV=production&&node tasks/build.js"
   },
   "devDependencies": {
     "babel": "6.5.2",
