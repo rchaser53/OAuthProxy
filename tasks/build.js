@@ -35,9 +35,15 @@ const rebundle = ()=>{
 bundler.on("update", rebundle);
 rebundle();
 
-vfs.src("./")
-    .pipe(webserver({
-        livereload: true
-    }));
+if(process.env.NODE_ENV !== "production"){
+    vfs.src("./")
+        .pipe(webserver({
+            port:8000,
+            livereload: true,
+            middleware:(req,res,next)=>{
+                res.end("You cannot use this port. This port is for livereload.");
+            }
+        }));
+}
 
 server();
