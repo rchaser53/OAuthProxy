@@ -2,3 +2,5 @@ pkg
 node_modules
 dest
 oAuthConfig.json
+key.pem
+localhost.crt
