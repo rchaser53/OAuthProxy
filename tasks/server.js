@@ -1,4 +1,5 @@
 const https = require('https');
+const http = require('http');
 const OAuth = require('oauth');
 const express = require('express');
 const serveStatic = require('serve-static');
@@ -21,7 +22,7 @@ module.exports = ()=>{
   app.get('/proxy/getTweet',(req,res,next)=>{
       const query = req.header("twitterQuery");
       oauth.get(
-          'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=rchaser53&count=5',
+          'https://api.twitter.com/1.1/statuses/user_timeline.json?count=5',
           config.userToken,
           config.useSecretToken,
         	(err,data,response) =>{
@@ -30,7 +31,6 @@ module.exports = ()=>{
           	}
           	res.header("Access-Control-Allow-Origin","https://localhost:3000");
           	res.header("Access-Control-Allow-Headers","twitterQuery");
-	console.log(res);
             res.send(data);
     	   });
   })
@@ -70,10 +70,9 @@ module.exports = ()=>{
   }));
 
   https.createServer({
-	key: fs.readFileSync('../../../../etc/letsencrypt/live/test.rc53api.xyz/privkey.pem'),
-	cert: fs.readFileSync('../../../../etc/letsencrypt/live/test.rc53api.xyz/cert.pem')
-},
-	app).listen(3000, (e)=>{
-      console.log("express server listening on port 3000")
+      key: fs.readFileSync('./key.pem', 'utf8'),
+      cert: fs.readFileSync('./localhost.crt', 'utf8')
+  },app).listen(3000, (e)=>{
+    console.log("express server listening on port 3000")
   });
 }
