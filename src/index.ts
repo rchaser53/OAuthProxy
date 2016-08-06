@@ -1,3 +1,5 @@
+import test from './test';
+
 window.onload = function(){
 	document.querySelector("#submitBtn").addEventListener("click",(e)=>{
 		getTweet("screen_name=rchaser53&count=5")

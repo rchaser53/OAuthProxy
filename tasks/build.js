@@ -6,12 +6,18 @@ const babelify = require('babelify');
 const fs = require('fs');
 const server = require('./server');
 
+const tsify = require('tsify')
+
+const tsconfig = require('../tsconfig').compilerOptions;
+
+// console.log(tsconfig)
+
 const bundler = browserify({
-                    entries: ["src/index.js"],
-                    debug: true,
-                    extensions: ['.js', '.jsx', '.css'],
+                    entries: ["src/index.js"]
                 })
-                .transform("babelify", {
+                .plugin(tsify, tsconfig)
+                .transform(babelify, {
+                    extensions: [ '.js','.tsx', '.ts','.css' ],
                     presets: ["es2015", "react"]
                 })
                 .plugin(watchify);

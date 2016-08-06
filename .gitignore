@@ -4,3 +4,4 @@ dest
 oAuthConfig.json
 key.pem
 localhost.crt
+typings

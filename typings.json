@@ -1,0 +1,14 @@
+{
+  "name": "test",
+  "globalDependencies": {
+    "immutable": "registry:dt/immutable#3.8.1+20160608070634",
+    "mocha": "registry:dt/mocha#2.2.5+20160720003353",
+    "node": "registry:dt/node#6.0.0+20160802155038",
+    "react": "registry:dt/react#0.14.0+20160802191555",
+    "react-redux": "registry:dt/react-redux#4.4.0+20160724070751",
+    "react-widgets": "registry:dt/react-widgets#3.2.1+20160417150457",
+    "redux": "registry:dt/redux#3.5.2+20160703092728",
+    "redux-logger": "registry:dt/redux-logger#2.6.0+20160619033847",
+    "redux-thunk": "registry:dt/redux-thunk#2.1.0+20160703120921"
+  }
+}
