@@ -1,0 +1,8 @@
+pkg
+node_modules
+dest
+oAuth.config.js
+server.config.js
+firebase.config.ts
+key.pem
+localhost.crt
