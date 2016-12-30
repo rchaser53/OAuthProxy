@@ -1,3 +1,6 @@
+import * as firebase from 'firebase';
+import { config } from '../firebase.config';
+
 window.onload = function(){
 	document.querySelector('#submitBtn').addEventListener('click', (e) => {
 		fetch('https://localhost:3000/proxy/getTweet', {
@@ -15,10 +18,11 @@ window.onload = function(){
 	});
 };
 
-const postTweet = (query) => {
-	return fetch('http://localhost:3000/proxy/postTweet', {
-		headers: {
-			twitterQuery: query
-		}
+firebase.initializeApp(config);
+firebase.auth().getRedirectResult().then((result) => {
+	const database = firebase.database();
+	const test = database.ref('users');
+	test.set({abc: 24365}, (err) => {
+		console.log(err);
 	});
-};
+});
