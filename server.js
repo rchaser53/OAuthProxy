@@ -73,7 +73,7 @@ export const makeGetTweet = (oauth, accessToken) => {
 		return new Promise((resolve, reject) => {
 			oauth.get(`https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=rChaser53&count=200${query}`, accessToken, (err, data) => {
 				if (err) reject(err)
-				resolve(JSON.parse(data).map(({text, id}) => {return {text, id}}));
+				resolve(JSON.parse(data));
 			});
 		});
 	};
