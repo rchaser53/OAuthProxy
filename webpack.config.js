@@ -8,7 +8,7 @@ export const config = {
 	devtool: 'inline-source-map',
 	context: path.resolve(__dirname),
 	entry: [
-		'./src/index.ts'
+		'./src/index.tsx'
 	],
 	output: {
 		path: path.join(__dirname, '/workplace/'),
